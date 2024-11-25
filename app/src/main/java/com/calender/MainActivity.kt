@@ -1,6 +1,9 @@
 package com.calender
 
 import android.os.Bundle
+import android.util.Log
+import android.webkit.ConsoleMessage
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.RelativeLayout
@@ -28,6 +31,14 @@ class MainActivity : AppCompatActivity() {
         webView.webViewClient = WebViewClient() // Keeps navigation in the app
         val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
+
+        // Add Debugging
+        webView.webChromeClient = object : WebChromeClient() {
+            override fun onConsoleMessage(consoleMessage: ConsoleMessage): Boolean {
+                Log.d("WebView", consoleMessage.message())
+                return true
+            }
+        }
 
         // Add WebView to the layout and load URL
         layout.addView(webView)
